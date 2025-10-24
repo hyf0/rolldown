@@ -450,10 +450,37 @@ export interface OutputOptions {
    */
   minifyInternalExports?: boolean;
   /**
-   * - Type: `boolean`
-   * - Default: `false`
+   * Clean the output directory before build.
    *
-   * Clean output directory before emitting output.
+   * When enabled, automatically removes all files from the output directory before
+   * generating new bundles. This is useful for ensuring a clean build environment
+   * and removing any stale artifacts from previous builds.
+   *
+   * :::tip Timing & Plugin Compatibility
+   * The clean operation occurs **before** the `generateBundle` hook executes,
+   * ensuring that files emitted by plugins during the build process are preserved.
+   * This timing is critical for plugin compatibility and prevents accidental deletion
+   * of plugin-generated assets.
+   * :::
+   *
+   * :::warning Safety
+   * This option only works when `output.dir` is specified. It will recursively
+   * remove all files and directories within the specified output directory.
+   * Ensure the output directory path is correct to avoid accidentally deleting
+   * important files.
+   * :::
+   *
+   * @default false
+   *
+   * @example
+   * ```js
+   * export default {
+   *   output: {
+   *     dir: './dist',
+   *     cleanDir: true
+   *   }
+   * }
+   * ```
    */
   cleanDir?: boolean;
   /** Keep function and class names after bundling.
